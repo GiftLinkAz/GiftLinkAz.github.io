@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bizim Hekayəmiz ❤️</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Konfeti Kitabxanası -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #fff5f7;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        
+        h1, h2, h3, .romantic-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Foto effektləri */
+        .memory-card {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transition: all 0.5s ease;
+            filter: grayscale(20%);
+        }
+
+        .memory-card:hover {
+            transform: scale(1.02) rotate(1deg);
+            filter: grayscale(0%);
+            box-shadow: 0 25px 50px -12px rgba(225, 29, 72, 0.25);
+        }
+
+        /* Scroll Animasiyası */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1.2s cubic-bezier(0.17, 0.55, 0.55, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Ürək Döyüntüsü Animasiyası */
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.1); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.1); }
+            70% { transform: scale(1); }
+        }
+
+        .heart-btn {
+            animation: heartbeat 2s infinite;
+        }
+
+        /* Arxa Fon Ürəkləri (Parallax) */
+        .floating-heart {
+            position: absolute;
+            color: rgba(225, 29, 72, 0.1);
+            z-index: -1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Musiqi Düyməsi */
+        .music-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 50;
+            background: white;
+            border-radius: 50%;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .music-toggle:hover { transform: scale(1.1); }
+
+        /* Teklif Ekranı */
+        #proposal-overlay {
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased">
+
+    <!-- Musiqi Nəzarəti -->
+    <button onclick="toggleMusic()" class="music-toggle" id="musicBtn" title="Musiqini Başlat">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+    </button>
+    <audio id="bgMusic" loop>
+        <source src="" type="audio/mpeg"> <!-- MP3 faylını bura əlavə et -->
+    </audio>
+
+    <!-- Giriş Hissəsi (Hero) -->
+    <header class="h-screen flex flex-col items-center justify-center text-center bg-cover bg-center relative sticky top-0" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=2070&auto=format&fit=crop');">
+        <div class="text-white z-10 px-6 animate-fade-in-up">
+            <p class="text-lg md:text-2xl mb-4 tracking-[0.2em] uppercase font-light">Zamanın Ötəsində Bir Sevgi</p>
+            <h1 class="text-6xl md:text-8xl font-bold mb-6 drop-shadow-2xl">Bizim Hekayəmiz</h1>
+            <p class="text-xl italic opacity-90 max-w-2xl mx-auto">Səninlə keçən hər saniyə, ömrümün ən gözəl xatirəsidir.</p>
+            
+            <div class="mt-16 animate-bounce">
+                <span class="block text-sm mb-2 opacity-80">Aşağı diyirləyin</span>
+                <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hekayə Başlayır -->
+    <main class="relative bg-white z-20 rounded-t-[50px] -mt-10 pt-20 pb-20 shadow-2xl">
+        
+        <!-- Dekorativ Ürəklər -->
+        <div class="floating-heart text-6xl top-20 left-10">❤</div>
+        <div class="floating-heart text-4xl top-40 right-20">❤</div>
+
+        <div class="container mx-auto px-6 max-w-5xl">
+
+            <!-- 1. Hissə: İlk Tanışlıq -->
+            <div class="reveal flex flex-col md:flex-row items-center gap-12 mb-40">
+                <div class="w-full md:w-1/2">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-rose-200 transform translate-x-3 translate-y-3 rounded-xl"></div>
+                        <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=1000&auto=format&fit=crop" class="relative rounded-xl memory-card w-full h-[400px] object-cover border-4 border-white">
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 md:pl-10 text-center md:text-left">
+                    <span class="text-rose-500 font-bold tracking-widest text-sm uppercase">Fəsil 1</span>
+                    <h2 class="text-4xl md:text-5xl font-bold mt-3 mb-6 text-gray-900">Hər Şey Belə Başladı</h2>
+                    <p class="text-lg text-gray-600 leading-relaxed">
+                        Səni ilk gördüyüm o günü xatırlayırsan? O an zaman sanki dayandı. Ürəyimin ritmi dəyişdi və mən o an anladım ki, həyatımda artıq heç nə əvvəlki kimi olmayacaq. O baxış, mənim taleyim oldu.
+                    </p>
+                    <p class="mt-6 text-rose-400 font-serif italic text-xl">"Gözlərində dünyanı gördüm..."</p>
+                </div>
+            </div>
+
+            <!-- 2. Hissə: Macəralar -->
+            <div class="reveal flex flex-col md:flex-row-reverse items-center gap-12 mb-40">
+                <div class="w-full md:w-1/2">
+                     <div class="relative">
+                        <div class="absolute inset-0 bg-amber-200 transform -translate-x-3 translate-y-3 rounded-xl"></div>
+                        <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1000&auto=format&fit=crop" class="relative rounded-xl memory-card w-full h-[400px] object-cover border-4 border-white">
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 md:pr-10 text-center md:text-left">
+                    <span class="text-amber-500 font-bold tracking-widest text-sm uppercase">Fəsil 2</span>
+                    <h2 class="text-4xl md:text-5xl font-bold mt-3 mb-6 text-gray-900">Birlikdə Kəşf Etdik</h2>
+                    <p class="text-lg text-gray-600 leading-relaxed">
+                        Getdiyimiz yollar, içdiyimiz qəhvələr, izlədiyimiz günbatımları... Səninlə ən sadə anlar belə möhtəşəm bir macəraya çevrilir. Yol yoldaşım olduğun üçün çox şanslıyam.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 3. Hissə: Gülüşlər -->
+            <div class="reveal flex flex-col md:flex-row items-center gap-12 mb-40">
+                <div class="w-full md:w-1/2">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-blue-200 transform translate-x-3 translate-y-3 rounded-xl"></div>
+                        <img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?q=80&w=1000&auto=format&fit=crop" class="relative rounded-xl memory-card w-full h-[400px] object-cover border-4 border-white">
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 md:pl-10 text-center md:text-left">
+                    <span class="text-blue-500 font-bold tracking-widest text-sm uppercase">Fəsil 3</span>
+                    <h2 class="text-4xl md:text-5xl font-bold mt-3 mb-6 text-gray-900">Səbəbsiz Gülüşlərimiz</h2>
+                    <p class="text-lg text-gray-600 leading-relaxed">
+                        Ən çox səninlə gülməyi sevirəm. Bəzən heç bir səbəb olmadan, sadəcə bir-birimizə baxanda yaranan o sevinc hissi... Sənin gülüşün mənim dünyamı işıqlandırır.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 4. Hissə: Zor Günlər -->
+            <div class="reveal flex flex-col md:flex-row-reverse items-center gap-12 mb-40">
+                <div class="w-full md:w-1/2">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-purple-200 transform -translate-x-3 translate-y-3 rounded-xl"></div>
+                        <img src="https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?q=80&w=1000&auto=format&fit=crop" class="relative rounded-xl memory-card w-full h-[400px] object-cover border-4 border-white">
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 md:pr-10 text-center md:text-left">
+                    <span class="text-purple-500 font-bold tracking-widest text-sm uppercase">Fəsil 4</span>
+                    <h2 class="text-4xl md:text-5xl font-bold mt-3 mb-6 text-gray-900">Dəstəyin və Gücün</h2>
+                    <p class="text-lg text-gray-600 leading-relaxed">
+                        Həyat hər zaman asan olmadı, amma sən mənim ən böyük dayanağım oldun. Fırtınalı günlərdə limanım, qaranlıq gecələrdə ulduzum oldun. Əlini tutanda hər çətinliyin öhdəsindən gələ biləcəyimi hiss etdim.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Ara Bölüm: Niyə Sən? -->
+            <div class="reveal bg-rose-50 rounded-3xl p-10 md:p-16 text-center shadow-inner mb-32 border border-rose-100">
+                <h2 class="text-3xl md:text-5xl font-bold text-rose-600 mb-10 romantic-font">Niyə Sən?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <div class="text-4xl mb-4">💎</div>
+                        <h3 class="text-xl font-bold mb-2">Qəlbin</h3>
+                        <p class="text-gray-600 text-sm">Dünyanın ən saf, ən mərhəmətli ürəyinə sahib olduğun üçün.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md transform md:-translate-y-4">
+                        <div class="text-4xl mb-4">🌟</div>
+                        <h3 class="text-xl font-bold mb-2">İşığın</h3>
+                        <p class="text-gray-600 text-sm">Məni daha yaxşı biri olmağa ilhamlandırdığın üçün.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <div class="text-4xl mb-4">♾️</div>
+                        <h3 class="text-xl font-bold mb-2">Sevgimiz</h3>
+                        <p class="text-gray-600 text-sm">Mənə əsl sevginin nə olduğunu öyrətdiyin üçün.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Final Çağırış -->
+            <div class="text-center py-10 reveal">
+                <h2 class="text-3xl md:text-6xl font-bold mb-8 text-gray-800 romantic-font">Və İndi...</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto mb-12">
+                    Keçmişimiz möhtəşəm idi. Amma mən bu hekayənin burada bitməsini istəmirəm. Səninlə yeni, sonsuz bir fəsilə başlamaq istəyirəm.
+                </p>
+                <button onclick="openProposal()" class="group relative inline-flex items-center justify-center px-10 py-5 text-lg font-bold text-white transition-all duration-200 bg-rose-600 font-pj rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-600 hover:bg-rose-700 shadow-xl transform hover:scale-105">
+                    <span class="mr-2">Sualım Var...</span>
+                    <svg class="w-6 h-6 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-white py-6 text-center text-gray-400 text-sm">
+        <p>Sonsuzluğa qədər... ❤️</p>
+    </footer>
+
+    <!-- MODAL / TEKLİF EKRANI -->
+    <div id="proposal-overlay" class="fixed inset-0 bg-black/80 z-[100] hidden flex-col items-center justify-center text-center px-4 overflow-hidden">
+        
+        <!-- Arxa planda fırlanan işıq effekti -->
+        <div class="absolute inset-0 bg-gradient-to-tr from-rose-900 via-transparent to-black opacity-80"></div>
+
+        <div class="relative z-10 max-w-4xl w-full transform transition-all duration-500 scale-95" id="proposal-content">
+            
+            <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=800&auto=format&fit=crop" class="w-56 h-56 rounded-full border-8 border-rose-500 mx-auto mb-10 object-cover shadow-[0_0_50px_rgba(225,29,72,0.8)] animate-pulse">
+            
+            <h1 class="text-5xl md:text-7xl font-bold mb-4 text-white romantic-font tracking-wide drop-shadow-lg">
+                Həyatım, Sevgilim...
+            </h1>
+            
+            <p class="text-3xl md:text-4xl mb-16 text-rose-200 font-light">
+                Mənimlə Evlənərsən? 💍
+            </p>
+            
+            <div class="flex flex-col md:flex-row gap-8 justify-center items-center">
+                <button onclick="acceptProposal()" class="heart-btn bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white text-3xl font-bold py-6 px-20 rounded-full shadow-[0_0_30px_rgba(225,29,72,0.6)] transition transform hover:scale-110 border-4 border-transparent hover:border-white">
+                    HƏ! ❤️
+                </button>
+                
+                <!-- "Yox" düyməsi qaçır -->
+                <button id="noBtn" onmouseover="moveButton(this)" ontouchstart="moveButton(this)" class="bg-gray-600/50 text-gray-300 text-lg font-medium py-4 px-10 rounded-full cursor-not-allowed hover:bg-gray-600 transition absolute md:relative mt-32 md:mt-0">
+                    Yox
+                </button>
+            </div>
+            
+            <!-- Qəbul etdikdən sonra çıxan mesaj -->
+            <div id="success-message" class="hidden mt-12 transform transition-all duration-500">
+                <h2 class="text-5xl md:text-6xl font-bold text-yellow-400 mb-4 romantic-font">Səni Çox Sevirəm!</h2>
+                <p class="text-xl text-white opacity-90">Birlikdə yaşlanacağıq...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Scroll Animasiyası ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+        // --- Musiqi ---
+        let isPlaying = false;
+        function toggleMusic() {
+            const audio = document.getElementById('bgMusic');
+            const btn = document.getElementById('musicBtn');
+            
+            if (!isPlaying) {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    btn.style.backgroundColor = "#ffe4e6"; // Açıq çəhrayı
+                    btn.innerHTML = '🎵'; // İkon dəyişir
+                }).catch(e => {
+                    alert("Zəhmət olmasa kodun içində 'src' hissəsinə musiqi faylını əlavə edin.");
+                });
+            } else {
+                audio.pause();
+                isPlaying = false;
+                btn.style.backgroundColor = "white";
+                btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>';
+            }
+        }
+
+        // --- Teklif Ekranını Açma ---
+        function openProposal() {
+            const overlay = document.getElementById('proposal-overlay');
+            const content = document.getElementById('proposal-content');
+            
+            overlay.classList.remove('hidden');
+            overlay.classList.add('flex');
+            
+            // Animasiya ilə gəliş
+            setTimeout(() => {
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            }, 100);
+        }
+
+        // --- Qaçan "Yox" Düyməsi ---
+        function moveButton(btn) {
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+            
+            btn.style.position = 'absolute';
+            btn.style.left = `${x}px`;
+            btn.style.top = `${y}px`;
+        }
+
+        // --- "Hə" Dedikdə ---
+        function acceptProposal() {
+            const duration = 5 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 150 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            // Konfeti Partlayışı
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 50 * (timeLeft / duration);
+                
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+
+            // UI Dəyişiklikləri
+            document.getElementById('noBtn').style.display = 'none'; // Yox düyməsini sil
+            document.querySelector('.heart-btn').innerHTML = "SÖZ VERİLDİ! 💍";
+            document.querySelector('.heart-btn').disabled = true;
+            document.querySelector('.heart-btn').classList.remove('heart-btn'); // Ürək atışını dayandır
+            
+            document.getElementById('success-message').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
+
