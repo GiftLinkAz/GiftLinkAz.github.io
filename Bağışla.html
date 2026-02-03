@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Barışaq? ❤️</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Pacifico&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #ffd1ff, #a18cd1);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .handwriting {
+            font-family: 'Pacifico', cursive;
+        }
+
+        .floating-emoji {
+            position: absolute;
+            font-size: 2rem;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.6;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        .image-container {
+            width: 160px;
+            height: 160px;
+            margin: 0 auto;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            background-color: white;
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .btn-magic {
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        footer {
+            position: fixed;
+            bottom: 20px;
+            text-align: center;
+            color: white;
+            font-size: 0.9rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            opacity: 0.8;
+        }
+
+        footer a {
+            font-weight: bold;
+            text-decoration: underline;
+            transition: opacity 0.3s;
+        }
+
+        footer a:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="p-4">
+
+    <!-- Üzən Emojilər -->
+    <div class="floating-emoji" style="top: 10%; left: 10%; animation-delay: 0s;">😔</div>
+    <div class="floating-emoji" style="top: 20%; right: 20%; animation-delay: 1s;">🥺</div>
+    <div class="floating-emoji" style="bottom: 15%; left: 15%; animation-delay: 2s;">❤️</div>
+    <div class="floating-emoji" style="bottom: 10%; right: 10%; animation-delay: 3s;">😽</div>
+
+    <!-- Əsas Kart -->
+    <div class="glass-card w-full max-w-md p-8 text-center relative z-10" id="card">
+        
+        <!-- Mərhələ 1: Üzr İstəmə -->
+        <div id="step-1">
+            <div class="image-container mb-6 animate-bounce">
+                <img src="https://media.giphy.com/media/L95W4wv8nnb9K/giphy.gif" alt="Sad Cat">
+            </div>
+
+            <h1 class="text-3xl font-extrabold text-white drop-shadow-md mb-2">Bağışla da...</h1>
+            <p class="text-white font-semibold text-lg mb-8 leading-relaxed drop-shadow-md">
+                Səni üzdüyüm üçün çox peşmanam. Sənsiz heç nəyin dadı yoxdur. Barışaq? 🥺
+            </p>
+
+            <div class="flex flex-col gap-4 relative h-36 justify-start items-center">
+                <button onclick="acceptApology()" class="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-bold py-3 px-10 rounded-full shadow-lg transform transition hover:scale-105 active:scale-95 text-xl w-full sm:w-auto z-20 border-2 border-white/50">
+                    Bağışladım ❤️
+                </button>
+                
+                <button id="no-btn" class="btn-magic bg-white/20 text-white border border-white/40 font-semibold py-2 px-6 rounded-full text-sm backdrop-blur-sm hover:bg-red-500/80 transition-colors whitespace-nowrap">
+                    Xeyr, olmaz
+                </button>
+            </div>
+        </div>
+
+        <!-- Mərhələ 2: Qəbul Edildi (Gizli) -->
+        <div id="step-2" class="hidden opacity-0 transform scale-90 transition-all duration-500">
+            <div class="image-container mb-6 animate-pulse border-pink-400">
+                <img src="https://media.giphy.com/media/10UeedrT5MIfYE/giphy.gif" alt="Happy Cat">
+            </div>
+            
+            <h1 class="handwriting text-5xl text-white drop-shadow-md mb-4">Uraaa! 🎉</h1>
+            <p class="text-white font-bold text-xl mb-6">
+                Səni çooox sevirəm! <br> Bir daha üzməyəcəm, söz! ❤️
+            </p>
+            
+            <button onclick="location.reload()" class="text-sm text-white/70 hover:text-white underline mt-4">
+                Yenidən bax
+            </button>
+        </div>
+    </div>
+
+    <!-- Copyright Bölməsi -->
+    <footer>
+        Hazırlayan: <a href="https://instagram.com/GiftLink.Az" target="_blank">İnstagram: @GiftLink.Az</a>
+    </footer>
+
+    <script>
+        const noBtn = document.getElementById('no-btn');
+        
+        function moveButton() {
+            noBtn.innerText = "Bağışla🥺(məcbursan😝)";
+            noBtn.classList.add('bg-red-500', 'border-red-600', 'text-white');
+            noBtn.classList.remove('bg-white/20');
+
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
+            const padding = 30;
+
+            const maxLeft = windowWidth - btnWidth - padding;
+            const maxTop = windowHeight - btnHeight - padding;
+
+            const randomLeft = Math.max(padding, Math.random() * maxLeft);
+            const randomTop = Math.max(padding, Math.random() * maxTop);
+
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomLeft + 'px';
+            noBtn.style.top = randomTop + 'px';
+            noBtn.style.zIndex = '100'; 
+        }
+
+        noBtn.addEventListener('mouseover', moveButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
+
+        function acceptApology() {
+            const step1 = document.getElementById('step-1');
+            const step2 = document.getElementById('step-2');
+
+            noBtn.style.display = 'none';
+            step1.style.display = 'none';
+            step2.classList.remove('hidden');
+            
+            setTimeout(() => {
+                step2.classList.remove('opacity-0', 'transform', 'scale-90');
+            }, 50);
+
+            const duration = 3000;
+            const end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 7,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 }
+                });
+                confetti({
+                    particleCount: 7,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 }
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+    </script>
+</body>
+</html>
+
