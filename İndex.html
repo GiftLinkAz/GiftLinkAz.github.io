@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GiftLink.Az | Premium Rəqəmsal Təcrübə</title>
+    <!-- Modern Fontlar Eklendi -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+    <!-- İkon Kütüphanesi -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-bg: #0f172a;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --accent-glow: rgba(124, 58, 237, 0.5);
+            --card-hover: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Arka Plan Animasyonu (Hareketli Işıklar) */
+        .background-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            background: linear-gradient(180deg, #7c3aed 0%, #2563eb 100%);
+            filter: blur(80px);
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: move 20s infinite alternate;
+        }
+
+        .blob:nth-child(1) { width: 300px; height: 300px; top: -100px; left: -50px; }
+        .blob:nth-child(2) { width: 400px; height: 400px; bottom: -100px; right: -50px; background: linear-gradient(180deg, #db2777 0%, #7c3aed 100%); animation-delay: -5s; }
+        
+        @keyframes move {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 50px) scale(1.1); }
+        }
+
+        /* Ana İçerik */
+        .container {
+            width: 90%;
+            max-width: 600px;
+            padding: 40px 20px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Logo ve Başlık Alanı */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        /* Link Kartları */
+        .showcase-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        /* Kartların sırayla gelmesi için gecikme */
+        .card:nth-child(1) { animation-delay: 0.2s; }
+        .card:nth-child(2) { animation-delay: 0.4s; }
+        .card:nth-child(3) { animation-delay: 0.6s; }
+        .card:nth-child(4) { animation-delay: 0.8s; }
+
+        .card:hover {
+            background: var(--card-hover);
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-right: 20px;
+        }
+
+        .card-content {
+            flex: 1;
+        }
+
+        .card-title {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 300;
+        }
+
+        .card-arrow {
+            color: var(--text-muted);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .card-arrow {
+            transform: translateX(5px);
+            color: #fff;
+        }
+
+        /* Alt Bilgi */
+        footer {
+            margin-top: 50px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-align: center;
+            opacity: 0.6;
+        }
+
+        /* Animasyon Keyframes */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Arka Plan Efekti -->
+    <div class="background-glow">
+        <div class="blob"></div>
+        <div class="blob"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="brand-name">GiftLink.Az</div>
+            <p class="tagline">Xatirələrinizi əbədiləşdiririk.</p>
+        </header>
+
+        <div class="showcase-grid">
+            
+            <!-- Örnek Proje 1 -->
+            <!-- Henüz link yoksa href="#" olarak kalabilir -->
+            <a href="#" class="card">
+                <div class="card-icon" style="background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 100%);">
+                    <i class="fa-solid fa-cake-candles"></i>
+                </div>
+                <div class="card-content">
+                    <span class="card-title">Ad Günü Konsepti</span>
+                    <span class="card-desc">Şəxsə özəl animasiyalı təbrik saytı nümunəsi.</span>
+                </div>
+                <div class="card-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+            </a>
+
+            <!-- Örnek Proje 2 -->
+            <a href="#" class="card">
+                <div class="card-icon" style="background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);">
+                    <i class="fa-solid fa-ring"></i>
+                </div>
+                <div class="card-content">
+                    <span class="card-title">Evlilik Təklifi</span>
+                    <span class="card-desc">"Hə" dedirdəcək sehirli bir dizayn.</span>
+                </div>
+                <div class="card-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+            </a>
+
+            <!-- Örnek Proje 3 -->
+            <a href="#" class="card">
+                <div class="card-icon" style="background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);">
+                    <i class="fa-solid fa-heart"></i>
+                </div>
+                <div class="card-content">
+                    <span class="card-title">İldönümü və Üzr İstəmək</span>
+                    <span class="card-desc">Duyğusal anlar üçün özəl səhifələr.</span>
+                </div>
+                <div class="card-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+            </a>
+
+            <!-- İletişim / Instagram Linki -->
+            <a href="https://instagram.com/senin_kullanici_adin" target="_blank" class="card" style="border-color: rgba(255,255,255,0.3);">
+                <div class="card-icon" style="background: rgba(255,255,255,0.1);">
+                    <i class="fa-brands fa-instagram"></i>
+                </div>
+                <div class="card-content">
+                    <span class="card-title">Əlaqə Saxla</span>
+                    <span class="card-desc">Xəyalındakı saytı hazırlatmaq üçün DM at.</span>
+                </div>
+                <div class="card-arrow"><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+            </a>
+
+        </div>
+
+        <footer>
+            &copy; 2024 GiftLink.Az | Sevgi ilə Hazırlanıb
+        </footer>
+    </div>
+
+</body>
+</html>
+
+
