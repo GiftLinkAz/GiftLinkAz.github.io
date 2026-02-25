@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TVA Tempad - Vaka #2602 AYAN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap');
+
+        :root {
+            --tva-amber: #ffbf00;
+            --tva-orange: #ff8c00;
+            --tva-red: #ff3333;
+            --tva-dark: #120d00;
+            --screen-bg: #100c05;
+        }
+
+        body {
+            background-color: #1a1a1a;
+            font-family: 'VT323', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            user-select: none;
+            margin: 0;
+        }
+
+        .tempad-case {
+            width: 360px;
+            height: 720px;
+            background: linear-gradient(145deg, #4a3b2a, #2c1e0a);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 
+                0 30px 60px rgba(0,0,0,0.8),
+                inset 0 0 15px rgba(0,0,0,0.5),
+                inset 2px 2px 5px rgba(255,255,255,0.1);
+            border: 4px solid #1f1505;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transform: scale(0.95);
+        }
+
+        .screen-container {
+            width: 100%;
+            height: 420px;
+            background-color: var(--screen-bg);
+            border: 6px solid #000;
+            border-radius: 10px 10px 40px 10px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.9);
+            transition: border-color 0.3s;
+        }
+
+        .screen-content {
+            padding: 15px;
+            color: var(--tva-amber);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            text-shadow: 0 0 4px var(--tva-amber);
+            position: relative;
+            z-index: 2;
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+        .screen-content::-webkit-scrollbar { display: none; }
+
+        .crt-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .scanline {
+            width: 100%;
+            height: 5px;
+            background: rgba(255, 191, 0, 0.1);
+            position: absolute;
+            z-index: 11;
+            animation: scan 3s linear infinite;
+            top: -10px;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% { top: -10px; }
+            100% { top: 100%; }
+        }
+
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 10px;
+            background: #151005;
+            border-radius: 10px;
+            border: 2px solid #000;
+        }
+
+        .btn {
+            height: 40px;
+            background: linear-gradient(to bottom, #3d2e18, #261a0a);
+            border: 1px solid #5c4626;
+            border-radius: 4px;
+            box-shadow: 0 4px 0 #140d02;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: rgba(255, 191, 0, 0.6);
+            font-size: 14px;
+            transition: all 0.1s;
+        }
+
+        .btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #140d02;
+            color: var(--tva-amber);
+        }
+
+        .btn-main {
+            grid-column: span 2;
+            background: linear-gradient(to bottom, #5c4014, #3d2a0b);
+            color: var(--tva-amber);
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .btn-red {
+            background: linear-gradient(to bottom, #5c1414, #3d0b0b);
+            color: #ff9999;
+        }
+
+        .menu-item {
+            padding: 6px 10px;
+            margin: 2px 0;
+            border: 1px solid transparent;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .menu-item.active {
+            background-color: rgba(255, 191, 0, 0.2);
+            border: 1px solid var(--tva-amber);
+            font-weight: bold;
+        }
+        .menu-item.active::before {
+            content: "> ";
+        }
+
+        .list-item {
+            padding: 4px 8px;
+            margin: 2px 0;
+            border: 1px solid transparent;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .list-item.active {
+            background-color: rgba(255, 191, 0, 0.2);
+            border: 1px solid var(--tva-amber);
+        }
+        .list-item.active::before {
+            content: "> ";
+        }
+
+        .variant-card {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dotted currentColor;
+            font-size: 14px;
+            padding-bottom: 2px;
+            margin-bottom: 5px;
+        }
+
+        .variant-image {
+            width: 120px;
+            height: 140px;
+            margin: 0 auto;
+            border: 2px solid var(--tva-amber);
+            background-color: black;
+            overflow: hidden;
+        }
+
+        .birthday-button {
+            background: linear-gradient(to bottom, #5c4014, #3d2a0b);
+            border: 1px solid var(--tva-amber);
+            color: var(--tva-amber);
+            padding: 8px 16px;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 4px;
+            box-shadow: 0 4px 0 #140d02;
+            transition: all 0.1s;
+            width: 100%;
+            margin-top: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        .birthday-button:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #140d02;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--tva-amber);
+            margin-top: -6px;
+        }
+        select {
+            background: black;
+            color: var(--tva-amber);
+            border: 1px solid var(--tva-amber);
+            border-radius: 4px;
+            padding: 2px;
+            font-family: 'VT323', monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tempad-case">
+        <div class="absolute top-3 left-6 text-[#5c4626] text-xs font-bold tracking-widest opacity-50 uppercase">TVA Standard Issue</div>
+        
+        <div class="screen-container" id="screenContainer">
+            <div class="crt-overlay"></div>
+            <div class="scanline"></div>
+            <div class="screen-content" id="screen"></div>
+        </div>
+
+        <div class="flex justify-between items-center px-4">
+            <div class="text-[#ffbf00] text-xs opacity-70" id="mode-text">MODE: STANDARD</div>
+            <div class="w-12 h-2 bg-[#120d00] rounded-full border border-[#333] overflow-hidden">
+                <div id="battery" class="h-full bg-green-500 w-[88%]"></div>
+            </div>
+        </div>
+
+        <div class="keypad">
+            <div class="btn" onclick="navigate('up')">▲</div>
+            <div class="btn" onclick="navigate('down')">▼</div>
+            <div class="btn" onclick="navigate('left')">◀</div>
+            <div class="btn" onclick="navigate('right')">▶</div>
+            
+            <div class="btn btn-main" onclick="selectOption()">SEÇ</div>
+            <div class="btn btn-main btn-red" onclick="goHome()">ÇIKIŞ</div>
+
+            <div class="btn">1</div>
+            <div class="btn">2</div>
+            <div class="btn">3</div>
+            <div class="btn">4</div>
+            <div class="btn">5</div>
+            <div class="btn">6</div>
+            <div class="btn">7</div>
+            <div class="btn">8</div>
+        </div>
+    </div>
+
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            const now = audioCtx.currentTime;
+
+            if (type === 'nav') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(440, now);
+                gain.gain.setValueAtTime(0.05, now);
+                gain.gain.linearRampToValueAtTime(0, now + 0.05);
+                osc.start(now); osc.stop(now + 0.05);
+            } else if (type === 'enter') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(600, now);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.linearRampToValueAtTime(0, now + 0.2);
+                osc.start(now); osc.stop(now + 0.2);
+            }
+        }
+
+        let currentScreen = 'boot';
+        let menuIndex = 0;
+        let listIndex = 0;
+        const screenEl = document.getElementById('screen');
+        const screenContainer = document.getElementById('screenContainer');
+        const modeText = document.getElementById('mode-text');
+
+        // Ana menü seçenekleri
+        const menuOptions = [
+            { id: 'timeline', label: 'ZAMAN ÇİZELGESİ' },
+            { id: 'database', label: 'VERİ TABANI' },
+            { id: 'door', label: 'ZAMAN KAPISI' },
+            { id: 'settings', label: 'AYARLAR' }
+        ];
+
+        // Zaman çizelgesi olayları
+        const timelineItems = [
+            { id: 'ms616', label: 'MS-616 (2012, New York)' },
+            { id: 'ms617', label: 'MS-617 (2014, Londra)' },
+            { id: 'ms618', label: 'MS-618 (2016, Sokovia)' },
+            { id: 'ms619', label: 'MS-619 (2018, Titan)' },
+            { id: 'ms620', label: 'MS-620 (2023, Dünya)' }
+        ];
+
+        // Veri tabanı varyantları
+        const databaseItems = [
+            { id: 'ayan', label: 'Varyant #2602 - AYAN' },
+            { id: 'loki', label: 'Varyant #2603 - LOKİ' },
+            { id: 'silvi', label: 'Varyant #2604 - SİLVİ' },
+            { id: 'mobius', label: 'Varyant #2605 - MOBIUS' },
+            { id: 'renslayer', label: 'Varyant #2606 - RENSLAYER' }
+        ];
+
+        window.onload = () => renderBoot();
+
+        function renderBoot() {
+            currentScreen = 'boot';
+            screenEl.innerHTML = `
+                <div class="flex flex-col items-center justify-center h-full">
+                    <svg class="w-12 h-12 mx-auto mb-2 animate-pulse" viewBox="0 0 100 100" fill="none" stroke="#ffbf00" stroke-width="4">
+                        <path d="M20 20 L50 80 L80 20 Z" />
+                        <path d="M15 20 L85 20" />
+                        <text x="50" y="45" text-anchor="middle" fill="#ffbf00" stroke="none" font-size="20" font-family="monospace" font-weight="bold">TVA</text>
+                    </svg>
+                    <div class="text-xl font-bold mt-2 tracking-widest">TEMPAD OS</div>
+                    <div class="mt-8 text-xs blink">SİSTEM BAŞLATILIYOR...</div>
+                    <div class="w-3/4 h-2 border border-[#ffbf00] mt-2 p-0.5 rounded">
+                        <div id="loader" class="h-full bg-[#ffbf00] w-0"></div>
+                    </div>
+                </div>
+            `;
+            let width = 0;
+            const interval = setInterval(() => {
+                width += 10;
+                if (document.getElementById('loader')) document.getElementById('loader').style.width = width + '%';
+                if (width >= 100) { clearInterval(interval); setTimeout(renderHome, 500); }
+            }, 100);
+        }
+
+        function renderHome() {
+            currentScreen = 'home';
+            menuIndex = 0;
+            updateMenuUI();
+        }
+
+        function updateMenuUI() {
+            if(currentScreen !== 'home') return;
+            const listHtml = menuOptions.map((opt, idx) => `
+                <div class="menu-item ${idx === menuIndex ? 'active' : ''}">${opt.label}</div>
+            `).join('');
+            screenEl.innerHTML = `
+                <div class="flex justify-between border-b border-[#ffbf00] pb-1 mb-2">
+                    <span class="text-xs">USER: ANALİST-2602</span>
+                    <span class="text-xs">Z-ÇİZGİSİ: 616</span>
+                </div>
+                <div class="text-center font-bold text-lg mb-4 text-[#ffbf00] bg-[#2c1e0a] border border-[#ffbf00]">ANA MENÜ</div>
+                <div class="flex flex-col gap-2 px-2">${listHtml}</div>
+            `;
+        }
+
+        function navigate(dir) {
+            playSound('nav');
+            
+            if (currentScreen === 'home') {
+                if (dir === 'up') menuIndex = (menuIndex - 1 + menuOptions.length) % menuOptions.length;
+                else if (dir === 'down') menuIndex = (menuIndex + 1) % menuOptions.length;
+                updateMenuUI();
+            }
+            else if (currentScreen === 'timeline' || currentScreen === 'database') {
+                const items = currentScreen === 'timeline' ? timelineItems : databaseItems;
+                if (dir === 'up') listIndex = (listIndex - 1 + items.length) % items.length;
+                else if (dir === 'down') listIndex = (listIndex + 1) % items.length;
+                
+                if (currentScreen === 'timeline') renderTimeline();
+                else renderDatabase();
+            }
+        }
+
+        function selectOption() {
+            playSound('enter');
+
+            if (currentScreen === 'home') {
+                const selected = menuOptions[menuIndex].id;
+                listIndex = 0;
+                switch(selected) {
+                    case 'timeline': renderTimeline(); break;
+                    case 'database': renderDatabase(); break;
+                    case 'door': renderDoor(); break;
+                    case 'settings': renderSettings(); break;
+                    default: renderGenericPage(menuOptions[menuIndex].label, "ERİŞİM İZNİ GEREKLİ.");
+                }
+            }
+            else if (currentScreen === 'timeline') {
+                const selectedItem = timelineItems[listIndex];
+                renderTimelineDetail(selectedItem.id);
+            }
+            else if (currentScreen === 'database') {
+                const selectedItem = databaseItems[listIndex];
+                switch(selectedItem.id) {
+                    case 'ayan': renderAyanDetail(); break;
+                    case 'loki': renderLokiDetail(); break;
+                    case 'silvi': renderSilviDetail(); break;
+                    case 'mobius': renderMobiusDetail(); break;
+                    case 'renslayer': renderRenslayerDetail(); break;
+                    default: renderGenericPage(selectedItem.label, "Dosya bulunamadı.");
+                }
+            }
+        }
+
+        // --- ZAMAN ÇİZELGESİ ---
+        function renderTimeline() {
+            currentScreen = 'timeline';
+            const listHtml = timelineItems.map((item, idx) => `
+                <div class="list-item ${idx === listIndex ? 'active' : ''}">${item.label}</div>
+            `).join('');
+            screenEl.innerHTML = `
+                <div class="border-b border-[#ffbf00] pb-1 mb-2 text-center font-bold">ZAMAN ÇİZELGESİ</div>
+                <div class="flex flex-col gap-1 px-2">${listHtml}</div>
+                <div class="mt-auto text-xs text-center blink text-gray-500 uppercase">Detay için SEÇ'e basın</div>
+            `;
+        }
+
+        function renderTimelineDetail(id) {
+            currentScreen = 'timelineDetail';
+            let detailContent = '';
+            switch(id) {
+                case 'ms616':
+                    detailContent = `
+                        <div class="info-row"><span>Olay:</span><span>New York İstilası</span></div>
+                        <div class="info-row"><span>Tarih:</span><span>2012</span></div>
+                        <div class="info-row"><span>Varyantlar:</span><span>Loki, Avengers</span></div>
+                        <div class="info-row"><span>Sonuç:</span><span>Chitauri yenilgisi</span></div>
+                    `; break;
+                case 'ms617':
+                    detailContent = `
+                        <div class="info-row"><span>Olay:</span><span>Londra Olayı</span></div>
+                        <div class="info-row"><span>Tarih:</span><span>2014</span></div>
+                        <div class="info-row"><span>Varyantlar:</span><span>Malekith, Thor</span></div>
+                        <div class="info-row"><span>Sonuç:</span><span>Gerçeklik taşı korundu</span></div>
+                    `; break;
+                default:
+                    detailContent = `<div class="text-center">Detay bulunamadı.</div>`;
+            }
+            screenEl.innerHTML = `
+                <div class="border-b border-[#ffbf00] pb-1 mb-2 text-center font-bold">ZAMAN OLAYI DETAYI</div>
+                <div class="text-sm space-y-2">${detailContent}</div>
+                <div class="mt-auto text-xs text-center blink text-gray-500 uppercase">Geri dönmek için çıkışa basın</div>
+            `;
+        }
+
+        // --- VERİ TABANI (TÜM VARYANTLAR) ---
+        function renderDatabase() {
+            currentScreen = 'database';
+            const listHtml = databaseItems.map((item, idx) => `
+                <div class="list-item ${idx === listIndex ? 'active' : ''}">${item.label}</div>
+            `).join('');
+            screenEl.innerHTML = `
+                <div class="border-b border-[#ffbf00] pb-1 mb-2 text-center font-bold">VERİ TABANI</div>
+                <div class="flex flex-col gap-1 px-2">${listHtml}</div>
+                <div class="mt-auto text-xs text-center blink text-gray-500 uppercase">Detay için SEÇ'e basın</div>
+            `;
+        }
+
+        function renderAyanDetail() {
+            currentScreen = 'ayanDetail';
+            screenEl.innerHTML = `
+                <div class="border-b border-[#ffbf00] pb-1 mb-2 text-center font-bold">VARYANT #2602 - AYAN</div>
+                <div class="variant-card">
+                    <div class="variant-image overflow-hidden">
+                        <img src="https://raw.githubusercontent.com/ali-tv/ali-tv.github.io/9010b1c9309e091d65b13eab8df0ab473fe723fe/IMG_20260131_135801_925.jpg" class="w-full h-full object-cover opacity-80 grayscale contrast-125">
+                    </div>
+                    <div class="text-sm space-y-2 mt-1">
+                        <div class="info-row"><span>DOSYA:</span> <span>AYAN-616</span></div>
+                        <div class="info-row"><span>DOĞUM:</span> <span>26.02.2008</span></div>
+                        <div class="info-row"><span>GERÇEK ZAMAN ÇİZGİSİ:</span> <span>MS-616</span></div>
+                        <div class="info-row"><span>SUÇ:</span> <span>Reşit Olma Kanunu İhlali</span></div>
+                        <div class="info-row"><span>CEZA:</span> <span>Sorumluluklar ve Vergiler</span></div>
+                    </div>
+                    <!-- Doğum Günü Butonu -->
+                    <button class="birthday-button" onclick="goToSurprise()">
+                        🎂 DOĞUM GÜNÜ SÜRPRİZİ 🎂
+                    </button>
+                </div>
+                <div class="mt-auto text-xs text-center blink text-gray-500 uppercase">Geri dönmek için çıkışa basın</div>
+            `;
+        }
+
+        function renderLokiDetail() {
+            currentScreen = 'lokiDetail';
+            screenEl.innerHTML = `
+                <div class="border-b border-[#ffbf00] pb-1 mb-2 text-center font-bold">VARYANT #2603 - LOKİ</div>
+                <div class="variant-card">
+                    <div class="variant-image overflow-hidden">
+                        <img src="https://64.media.tumblr.com/7ce8227a3d8f761bbd079a522f3c3e14/tumblr_p8mvn4zo3G1s2kg5bo1_500.jpg" class="w-full h-full object-cover opacity-80 grayscale contrast-125">
+                    </div>
+                    <div class="text-sm space-y-2 mt-1">
+                        <div class="info-row"><span>DOSYA:</span> <span>LOKI-616</span></div>
+                        <div class="info-row"><span>DOĞUM:</span> <span>??.??.????</span></div>
+                        <div class="info-row"><span>GERÇEK ZAMAN ÇİZGİSİ:</span> <span>MS-616</span></div>
+                        <div class="info-row"><span>SUÇ:</span> <span>Zaman çizelgesine müdahale</span></div>
+                        <div class="info-row"><span>CEZA:</span> <span>TVA'da çalışma</span></div>
+                    </div>
+                </div>
+                <div class="mt-auto text-xs text-center blink text-gray-500 uppercase">Geri dönmek için çıkışa basın</div>
+            `;
+        }
+
+        function renderSilviDetail() {
+            currentScreen = 'silviDetail';
+            screenEl.innerHTML = `
+                <div class="border-b border-[#ffbf00] pb-1 mb-2 text-center font-bold">VARYANT #2604 - SİLVİ</div>
+                <div class="variant-card">
+                    <div class="variant-image overflow-hidden">
+                        <img src="https://64.media.tumblr.com/73b9a1a857beee8ce029603ccd7fc726/d915edeeca55ba78-fa/s1280x1920/2b23273602f477fd5e74c168b3d077a463982ff9.jpg" class="w-full h-full object-cover opacity-80 grayscale contrast-125">
+                    </div>
+                    <div class="text-sm space-y-2 mt-1">
+                        <div class="info-row"><span>DOSYA:</span> <span>SILVI-616</span></div>
+                        <div class="info-row"><span>DOĞUM:</span> <span>??.??.????</span></div>
+                        <div class="info-row"><span>GERÇEK ZAMAN ÇİZGİSİ:</span> <span>Bilinmiyor</span></div>
+                        <div class="info-row"><span>SUÇ:</span> <span>TVA'ya saldırı</span></div>
+                        <div class="info-row"><span>CEZA:</span> <span>Kaçak</span></div>
+                    </div>
+                </div>
+                <div class="mt-auto text-xs text-center blink text-gray-500 uppercase">Geri dönmek için çıkışa basın</div>
+            `;
+        }
+
+        function renderMobiusDetail() {
+            currentScreen = 'mobiusDetail';
+            screenEl.innerHTML = `
+                <div class="border-b border-[#ffbf00] pb-1 mb-2 text-center font-bold">VARYANT #2605 - MOBIUS</div>
+                <div class="variant-card">
+                    <div class="variant-image overflow-hidden">
+                        <img src="https://64.media.tumblr.com/e3f1368d18d349bd8ddb123b508235a3/2c7121de527587ed-57/s1280x1920/66f10564804ee23f929a5cf37157d1b142a4f4c6.jpg" class="w-full h-full object-cover opacity-80 grayscale contrast-125">
+                    </div>
+                    <div class="text-sm space-y-2 mt-1">
+                        <div class="info-row"><span>DOSYA:</span> <span>MOBIUS-616</span></div>
+                        <div class="info-row"><span>DOĞUM:</span> <span>??.??.????</span></div>
+                        <div class="info-row"><span>GERÇEK ZAMAN ÇİZGİSİ:</span> <span>MS-616</span></div>
+                        <div class="info-row"><span>SUÇ:</span> <span>Varyantlara yardım</span></div>
+                        <div class="info-row"><span>CEZA:</span> <span>Görevden alındı</span></div>
+                    </div>
+                </div>
+                <div class="mt-auto text-xs text-center blink text-gray-500 uppercase">Geri dönmek için çıkışa basın</div>
+            `;
+        }
+
+        function renderRenslayerDetail() {
+            currentScreen = 'renslayerDetail';
+            screenEl.innerHTML = `
+                <div class="border-b border-[#ffbf00] pb-1 mb-2 text-center font-bold">VARYANT #2606 - RENSLAYER</div>
+                <div class="variant-card">
+                    <div class="variant-image overflow-hidden">
+                        <img src="https://64.media.tumblr.com/4fa496a34d9ec89504098492b9392d62/b0be4900c8dc37c3-4d/s500x750/056afa893bf2a80cbfb41c6f521ea6a8d337417b.jpg" class="w-full h-full object-cover opacity-80 grayscale contrast-125">
+                    </div>
+                    <div class="text-sm space-y-2 mt-1">
+                        <div class="info-row"><span>DOSYA:</span> <span>RENSLAYER-616</span></div>
+                        <div class="info-row"><span>DOĞUM:</span> <span>??.??.????</span></div>
+                        <div class="info-row"><span>GERÇEK ZAMAN ÇİZGİSİ:</span> <span>Bilinmiyor</span></div>
+                        <div class="info-row"><span>SUÇ:</span> <span>İhanet</span></div>
+                        <div class="info-row"><span>CEZA:</span> <span>Silinme</span></div>
+                    </div>
+                </div>
+                <div class="mt-auto text-xs text-center blink text-gray-500 uppercase">Geri dönmek için çıkışa basın</div>
+            `;
+        }
+
+        // --- ZAMAN KAPISI ---
+        function renderDoor() {
+            currentScreen = 'door';
+            screenEl.innerHTML = `
+                <div class="border-b border-[#ffbf00] pb-1 mb-2 text-center font-bold">ZAMAN KAPISI</div>
+                <div class="flex flex-col items-center gap-4">
+                    <div class="text-6xl">🚪</div>
+                    <div class="text-sm" id="doorStatus">Kapı: KAPALI</div>
+                    <button class="btn btn-main px-4 py-1" onclick="doorAction('open')">AÇ</button>
+                    <button class="btn btn-red px-4 py-1" onclick="doorAction('close')">KAPA</button>
+                </div>
+                <div class="mt-auto text-xs text-center blink text-gray-500 uppercase">Geri dönmek için çıkışa basın</div>
+            `;
+        }
+
+        // --- AYARLAR ---
+        function renderSettings() {
+            currentScreen = 'settings';
+            screenEl.innerHTML = `
+                <div class="border-b border-[#ffbf00] pb-1 mb-2 text-center font-bold">AYARLAR</div>
+                <div class="flex flex-col gap-3 text-sm">
+                    <div class="flex justify-between items-center">
+                        <span>Parlaklık</span>
+                        <input type="range" min="0" max="100" value="80" class="w-32" onchange="adjustBrightness(this.value)">
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span>Ses</span>
+                        <input type="checkbox" checked onchange="toggleSound(this.checked)" class="accent-[#ffbf00]">
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span>Zaman Dilimi</span>
+                        <select class="bg-black border border-[#ffbf00] text-[#ffbf00] text-xs">
+                            <option>UTC</option>
+                            <option>EST</option>
+                            <option>PST</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mt-auto text-xs text-center blink text-gray-500 uppercase">Geri dönmek için çıkışa basın</div>
+            `;
+        }
+
+        // --- YARDIMCI FONKSİYONLAR ---
+        function doorAction(action) {
+            const statusEl = document.getElementById('doorStatus');
+            if (action === 'open') {
+                statusEl.innerText = 'Kapı: AÇIK';
+                playSound('enter');
+            } else {
+                statusEl.innerText = 'Kapı: KAPALI';
+                playSound('nav');
+            }
+        }
+
+        function adjustBrightness(val) {
+            document.body.style.filter = `brightness(${val/100 + 0.5})`;
+        }
+
+        function toggleSound(checked) {
+            console.log('Ses ' + (checked ? 'açık' : 'kapalı'));
+        }
+
+        function goHome() { 
+            playSound('nav'); 
+            renderHome(); 
+        }
+
+        function goToSurprise() {
+            // Rick Roll
+            window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+        }
+
+        function renderGenericPage(title, msg) {
+            currentScreen = 'generic';
+            screenEl.innerHTML = `
+                <div class="border-b border-[#ffbf00] pb-1 mb-2 text-center font-bold">${title}</div>
+                <div class="flex items-center justify-center h-48 text-center text-sm">${msg}</div>
+                <div class="mt-auto text-xs text-center blink text-gray-500 uppercase">Geri dönmek için çıkışa basın</div>
+            `;
+        }
+    </script>
+</body>
+</html>
