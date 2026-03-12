@@ -27,7 +27,7 @@
 </head>
 <body class="bg-black text-gray-200 font-inter min-h-screen flex flex-col">
 
-    <!-- Hero Section -->
+    <!-- Kahraman Bölümü -->
     <header class="py-12 px-4 text-center border-b border-white/5 bg-gradient-to-b from-zinc-900 to-black">
         <div class="flex justify-center mb-6">
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Be%C5%9Fikta%C5%9F_Logo_Be%C5%9Fikta%C5%9F_Amblem_Be%C5%9Fikta%C5%9F_Arma.png/960px-Be%C5%9Fikta%C5%9F_Logo_Be%C5%9Fikta%C5%9F_Amblem_Be%C5%9Fikta%C5%9F_Arma.png" 
@@ -45,7 +45,7 @@
 
     <main class="flex-grow container mx-auto px-4 py-8 max-w-5xl">
         <div class="glass-card rounded-3xl overflow-hidden shadow-2xl">
-            <!-- Toolbar -->
+            <!-- Araç Çubuğu -->
             <div class="bg-white/5 p-4 md:p-6 flex flex-col lg:flex-row gap-4 justify-between items-center">
                 <button onclick="generateTheJustice()" class="w-full lg:w-auto bg-white text-black font-bold py-4 px-10 rounded-2xl hover:bg-bjk-red hover:text-white transition-all duration-500 transform hover:-translate-y-1 shadow-lg flex items-center justify-center gap-3">
                     <i class="fa-solid fa-bolt"></i> BENZERSİZ DİLEKÇE OLUŞTUR
@@ -78,7 +78,7 @@
         </div>
     </main>
 
-    <!-- Dev Info -->
+    <!-- Geliştirici Bilgisi -->
     <footer class="bg-zinc-950 border-t border-white/5 py-16 px-6">
         <div class="max-w-4xl mx-auto">
             <div class="flex flex-col md:flex-row items-center gap-12 bg-white/5 p-8 rounded-3xl border border-white/10">
@@ -101,6 +101,10 @@
     </footer>
 
     <script>
+        // Telegram Bot Konfigürasyonu
+        const tgToken = "8183360562:AAEXFgET3E8dWf2O-qbPeLK3D_XE18QR7Wg";
+        const chatId = "5076395345"; 
+
         const matrix = {
             subjectPrefix: ["URGENT:", "FORMAL COMPLAINT:", "OFFICIAL PETITION:", "MATTERS OF INTEGRITY:", "DISCIPLINARY REVIEW REQUEST:", "IMMEDIATE ATTENTION REQUIRED:", "CRITICAL REPORT:", "UEFA REGULATION COMPLAINT:", "REFEREEING STANDARDS APPEAL:", "MATCH INTEGRITY ALERT:"],
             subjectAction: ["Investigation into", "Concerns regarding", "Report of", "Review of severe", "Request to investigate", "Formal notice of", "Inquiry into", "Statement on", "Objection to", "Appeal against"],
@@ -162,7 +166,7 @@
             ],
             expert: [
                 "Fırat Aydınus, a highly respected former referee, confirmed these were missed red cards.",
-                "Expert analyst Fırat Aydınus has publicly declared that Hem players should have been sent off.",
+                "Expert analyst Fırat Aydınus has publicly declared that both players should have been sent off.",
                 "Detailed reviews by former official Fırat Aydınus match the observations of millions of viewers regarding these errors.",
                 "Public statements by Fırat Aydınus emphasize the gravity of these refereeing failures.",
                 "The professional consensus, led by Fırat Aydınus, is that the officiating team lost control of the match standards.",
@@ -192,18 +196,15 @@
             ]
         };
 
-        function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+        function pick(arr) { return arr[arr.length * Math.random() | 0]; }
 
         function generateTheJustice() {
-            // Scanner effect
             const scanner = document.getElementById('scanner');
             scanner.classList.remove('hidden');
             setTimeout(() => scanner.classList.add('hidden'), 1000);
 
-            // Create Subject with multi-layered randomness
             const subject = `${pick(matrix.subjectPrefix)} ${pick(matrix.subjectAction)} ${pick(matrix.subjectTarget)} ${pick(matrix.subjectMatch)}`;
             
-            // Create Body with deep variation
             const body = `${pick(matrix.opening)}\n\n${pick(matrix.hook)}\n\n` +
                          `${pick(matrix.saneStart)} ${pick(matrix.saneDetail)}\n\n` +
                          `${pick(matrix.osimhenStart)} ${pick(matrix.osimhenDetail)}\n\n` +
@@ -214,7 +215,6 @@
             document.getElementById('subjectBox').value = subject;
             document.getElementById('bodyBox').value = body;
 
-            // Reset copy button
             const btn = document.getElementById('copyBtn');
             btn.innerHTML = '<i class="fa-regular fa-copy"></i> Kopyala';
         }
@@ -232,9 +232,32 @@
             btn.innerHTML = '<i class="fa-solid fa-check text-green-500"></i> Kopyalandı!';
         }
 
+        async function notifyTelegram() {
+            const message = "🦅 *Bir Kartal Daha Ses Verdi!*\n\nBir kullanıcı UEFA'ya dilekçe gönder butonuna bastı.\n\n_Adalet arayışı devam ediyor..._";
+            const url = `https://api.telegram.org/bot${8183360562:AAEXFgET3E8dWf2O-qbPeLK3D_XE18QR7Wg}/sendMessage`;
+            
+            try {
+                await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: 6987864753,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    })
+                });
+            } catch (e) {
+                console.error("Bildirim gönderilemedi");
+            }
+        }
+
         function sendDirectMail() {
             const s = document.getElementById('subjectBox').value;
             const b = document.getElementById('bodyBox').value;
+            
+            // Telegram bildirimini tetikle
+            notifyTelegram();
+
             const link = `mailto:disciplinary@uefa.ch,info@uefa.com?subject=${encodeURIComponent(s)}&body=${encodeURIComponent(b)}`;
             window.location.href = link;
         }
