@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UEFA Dilekçe Oluşturucu - Beşiktaş</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'oswald': ['Oswald', 'sans-serif'],
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'bjk-black': '#0a0a0a',
+                        'bjk-dark': '#141414',
+                        'bjk-gray': '#2a2a2a',
+                    },
+                    backgroundImage: {
+                        'stadium': "linear-gradient(to bottom, rgba(10, 10, 10, 0.92), rgba(10, 10, 10, 0.98)), url('https://images.unsplash.com/photo-1518605368461-1ee71168f8ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')"
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #141414; }
+        ::-webkit-scrollbar-thumb { background: #4a4a4a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ffffff; }
+
+        /* Glassmorphism utility */
+        .glass {
+            background: rgba(20, 20, 20, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
+            50% { transform: translateY(-10px); filter: drop-shadow(0 0 25px rgba(255,255,255,0.5)); }
+        }
+        .logo-animation {
+            animation: logoFloat 4s ease-in-out infinite;
+        }
+        
+        .glow-effect {
+            transition: box-shadow 0.3s ease;
+        }
+        .glow-effect:hover {
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-stadium bg-cover bg-center bg-fixed text-white font-inter min-h-screen flex flex-col selection:bg-white selection:text-black">
+
+    <!-- Header Section -->
+    <header class="w-full pt-10 pb-8 px-4 text-center animate-fade-in">
+        <!-- Beşiktaş Logo Container -->
+        <div class="flex justify-center mb-6">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Be%C5%9Fikta%C5%9F_JK_Logo.svg" 
+                 alt="Beşiktaş JK Logo" 
+                 class="w-24 md:w-32 logo-animation">
+        </div>
+        
+        <h1 class="font-oswald text-4xl md:text-6xl font-bold uppercase tracking-wider mb-3">
+            Adalet İçin <span class="text-gray-400">Ses Ver</span>
+        </h1>
+        <p class="text-gray-400 text-sm md:text-base max-w-2xl mx-auto font-light leading-relaxed">
+            7 Mart Beşiktaş - Galatasaray karşılaşmasındaki hakem kararlarına karşı UEFA'ya gönderilmek üzere, spama düşmemesi için <strong>her seferinde benzersiz</strong> oluşturulan İngilizce şikayet dilekçesi.
+        </p>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-4 max-w-5xl animate-fade-in" style="animation-delay: 0.2s;">
+        
+        <div class="glass rounded-2xl shadow-2xl overflow-hidden glow-effect">
+            <!-- Action Bar -->
+            <div class="bg-black/50 border-b border-gray-800 p-4 md:p-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                <button onclick="generateText()" class="w-full md:w-auto bg-transparent hover:bg-white text-white hover:text-black border border-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 group">
+                    <i class="fa-solid fa-rotate group-hover:rotate-180 transition-transform duration-500"></i>
+                    Yeni Varyasyon Üret
+                </button>
+                
+                <div class="flex w-full md:w-auto gap-3">
+                    <button onclick="copyText()" id="copyBtn" class="flex-1 md:flex-none bg-bjk-gray hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 flex items-center justify-center gap-2">
+                        <i class="fa-regular fa-copy"></i> Kopyala
+                    </button>
+                    <button onclick="sendMail()" class="flex-1 md:flex-none bg-white hover:bg-gray-200 text-black font-bold py-3 px-6 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(255,255,255,0.4)] hover:shadow-[0_0_25px_rgba(255,255,255,0.6)]">
+                        <i class="fa-solid fa-paper-plane"></i> E-Posta Gönder
+                    </button>
+                </div>
+            </div>
+
+            <!-- Email Content Area -->
+            <div class="p-4 md:p-8 space-y-6">
+                <!-- Subject -->
+                <div>
+                    <label class="block text-gray-400 text-xs uppercase tracking-widest font-semibold mb-2 ml-1">Konu (Subject)</label>
+                    <input type="text" id="emailSubject" readonly class="w-full bg-black/60 text-white border border-gray-700 rounded-lg p-3 md:p-4 focus:outline-none focus:border-gray-400 font-semibold text-sm md:text-base transition-colors">
+                </div>
+
+                <!-- Body -->
+                <div>
+                    <label class="block text-gray-400 text-xs uppercase tracking-widest font-semibold mb-2 ml-1">Mesaj İçeriği (Body)</label>
+                    <textarea id="emailBody" readonly class="w-full h-[400px] md:h-[500px] bg-black/60 text-gray-200 border border-gray-700 rounded-lg p-4 focus:outline-none focus:border-gray-400 resize-none text-sm md:text-base leading-relaxed transition-colors font-inter"></textarea>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer / Developer Info -->
+    <footer class="mt-12 w-full animate-fade-in" style="animation-delay: 0.4s;">
+        <div class="border-t border-gray-800 bg-black/80 backdrop-blur-md pt-10 pb-6 px-4">
+            <div class="container mx-auto max-w-4xl">
+                
+                <!-- Freelance Card -->
+                <div class="bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center gap-8 shadow-2xl relative overflow-hidden text-left">
+                    <!-- Decor element -->
+                    <div class="absolute -right-10 -top-10 opacity-5">
+                        <i class="fa-solid fa-code text-9xl"></i>
+                    </div>
+
+                    <div class="flex-shrink-0">
+                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                            <i class="fa-solid fa-laptop-code text-3xl text-black"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-grow text-center md:text-left z-10">
+                        <h3 class="font-oswald text-2xl font-bold tracking-wide text-white mb-2">Geliştirici İletişim</h3>
+                        <p class="text-gray-300 text-sm md:text-base leading-relaxed mb-4 max-w-2xl">
+                            Üniversite borçlarımı kapatmak için işe ihtiyacım var. Bana aşağıdaki mail adresinden ulaşabilirsiniz. Her türlü teknolojik iş (Web geliştirme, otomasyon, tasarım vb.) yapabilirim.
+                        </p>
+                        
+                        <div class="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
+                            <a href="mailto:alihuseyinli326@gmail.com" class="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white px-5 py-2.5 rounded-lg text-sm transition-colors border border-gray-700">
+                                <i class="fa-solid fa-envelope text-gray-400"></i> alihuseyinli326@gmail.com
+                            </a>
+                            <a href="https://instagram.com/ali_hsyn3" target="_blank" class="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white px-5 py-2.5 rounded-lg text-sm transition-colors border border-gray-700">
+                                <i class="fa-brands fa-instagram text-gray-400"></i> @ali_hsyn3
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-8 text-gray-600 text-xs">
+                    <p>© 2026 Geliştirici Ali. Tüm hakları saklıdır. UEFA bir tescilli markadır, bu sitenin resmi bir bağı yoktur.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        const subjects = [
+            "Formal Petition: Severe Refereeing Mistakes in Beşiktaş vs Galatasaray Match",
+            "Urgent Investigation Request: Integrity of Match - Beşiktaş vs Galatasaray",
+            "Official Complaint Regarding Referee Ozan Ergün & VAR Performance (March 7)",
+            "Appeal to UEFA: Serious Player Safety Concerns & Referee Failures in Turkish Süper Lig",
+            "Urgent Review Required: Clear Violations of the Laws of the Game (Beşiktaş - Galatasaray)"
+        ];
+
+        const openings = [
+            "Dear UEFA Officials,\n\n",
+            "To the Respected UEFA Disciplinary Committee,\n\n",
+            "To the Attention of UEFA Management and Refereeing Committee,\n\n",
+            "Dear UEFA Disciplinary Department,\n\n"
+        ];
+
+        const intros = [
+            "I am writing this formal petition as a concerned football supporter to draw your urgent attention to clear and serious refereeing mistakes that occurred during the Beşiktaş vs Galatasaray derby match in the Turkish Süper Lig on March 7th. These decisions directly affected the integrity and fairness of the game.\n\n",
+            "As a passionate football fan, I am submitting this official complaint regarding the unacceptable refereeing errors in the recent Beşiktaş vs Galatasaray Turkish Süper Lig match played on March 7th. These errors severely damaged the integrity of the game and require immediate review under UEFA’s oversight of European football standards.\n\n",
+            "I wish to formally report severe refereeing failures during the Beşiktaş vs Galatasaray match (March 7th) that directly compromised the fairness of the game and player safety, demanding an immediate review from UEFA as the guardian of European football.\n\n"
+        ];
+
+        const saneIncidents = [
+            "1. Leroy Sané should have received a RED CARD in the 28th minute\nIn the 28th minute, Galatasaray player Leroy Sané committed a dangerous and violent foul on Beşiktaş player Kristjan Asllani. Sané came in from above with his studs, landing directly on Asllani’s ankle/heel area. There was no contact with the ground, the challenge was made with excessive force, and it clearly endangered the opponent’s safety. This meets all the criteria for serious foul play under Law 12. Instead, referee Ozan Ergün showed only a yellow card, with no VAR intervention. Former referee Fırat Aydınus and multiple experts confirmed this was a clear red card offence.\n\n",
+            "1. Missed Red Card for Leroy Sané (28')\nAt the 28-minute mark, a violent, studs-up tackle by Leroy Sané on Kristjan Asllani was met with only a yellow card by referee Ozan Ergün. Coming from above with excessive force and zero ground contact, this clearly endangered the player. Despite meeting all criteria for a direct red card under Law 12, VAR did not intervene. This decision has been heavily criticized by experts, including former professional referee Fırat Aydınus, who confirmed it was a straight red.\n\n",
+            "1. Clear Red Card Ignored - Leroy Sané (28th minute)\nA massive error occurred in the 28th minute when Leroy Sané violently tackled Kristjan Asllani. The studs-up challenge from above endangered the opponent's safety with high intensity. Referee Ozan Ergün shockingly issued only a yellow card, and the VAR team remained silent. Football pundits, notably Fırat Aydınus, have unanimously agreed this warranted an immediate dismissal.\n\n"
+        ];
+
+        const osimhenIncidents = [
+            "2. Victor Osimhen should have received a SECOND YELLOW CARD in the 55th minute\nIn the 55th minute, Galatasaray striker Victor Osimhen clearly heard referee Ozan Ergün’s whistle for a foul. Despite this, he deliberately continued playing, struck the ball and attempted to score. This act of ignoring the referee’s decision constitutes a clear cautionable offence. As it was his second cautionable action, Osimhen should have been shown a second yellow card, resulting in a red card. Again, Fırat Aydınus explicitly stated that Osimhen should have been sent off.\n\n",
+            "2. Missed Second Yellow for Victor Osimhen (55')\nFurthermore, in the 55th minute, Victor Osimhen deliberately ignored the referee's whistle. He continued to play and took a shot on goal. This clear act of dissent and persistent infringement should have resulted in his second yellow card and subsequent dismissal. Pundit Fırat Aydınus explicitly confirmed in his analysis that this was another major refereeing failure that should have resulted in a red card.\n\n",
+            "2. Second Bookable Offense Ignored - Victor Osimhen (55th minute)\nAnother critical error occurred around the 55th minute. Victor Osimhen clearly heard the whistle but deliberately chose to continue playing and shot the ball. This failure to respect the referee's decision demanded a second yellow card. As confirmed by former referee Fırat Aydınus, Osimhen should have been dismissed from the pitch immediately, altering the course of the match.\n\n"
+        ];
+
+        const conclusions = [
+            "These two decisions had a direct impact on the result and safety of the players. Such clear errors undermine the credibility of refereeing across European football and set a dangerous precedent.\nI therefore respectfully petition UEFA to:\n- Immediately open an investigation into these incidents;\n- Review the referee’s performance (Ozan Ergün) and VAR decisions;\n- Consider appropriate disciplinary sanctions against the referee and/or retrospective action against the players involved.\n\n",
+            "Because these clear errors severely undermine the credibility of refereeing, I request that UEFA immediately opens an investigation. I urge you to review Ozan Ergün's and the VAR's performance, and consider retrospective disciplinary action to ensure the Laws of the Game are strictly applied and player safety is prioritized.\n\n",
+            "Such blatant mistakes set a dangerous precedent for European football. I petition UEFA to launch a formal investigation into referee Ozan Ergün and the VAR officials. It is crucial to take appropriate disciplinary steps against both the officials and the players involved to maintain fair play and protect the integrity of the sport.\n\n"
+        ];
+
+        const signoffs = [
+            "I trust that UEFA will treat this petition with the seriousness it deserves.\nThank you for your attention.\n\nYours faithfully,\nA Concerned Football Supporter",
+            "I believe UEFA, as the guardian of European football, will take the necessary steps regarding this matter.\n\nSincerely,\nA Supporter for Fair Play",
+            "We trust in UEFA's commitment to justice and fair play in football.\n\nRespectfully submitted,\nA Concerned Fan"
+        ];
+
+        function getRandom(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        function generateText() {
+            const finalSubject = getRandom(subjects);
+            const finalBody = 
+                getRandom(openings) + 
+                getRandom(intros) + 
+                getRandom(saneIncidents) + 
+                getRandom(osimhenIncidents) + 
+                getRandom(conclusions) + 
+                getRandom(signoffs);
+            
+            document.getElementById('emailSubject').value = finalSubject;
+            document.getElementById('emailBody').value = finalBody;
+            
+            const copyBtn = document.getElementById('copyBtn');
+            copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Kopyala';
+            copyBtn.classList.remove('bg-green-600', 'hover:bg-green-700', 'border-green-600');
+        }
+
+        function copyText() {
+            const subject = document.getElementById('emailSubject').value;
+            const body = document.getElementById('emailBody').value;
+            if(!body) return;
+            const textToCopy = "Konu: " + subject + "\n\n" + body;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = textToCopy;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+            const copyBtn = document.getElementById('copyBtn');
+            copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Kopyalandı!';
+            copyBtn.classList.add('bg-green-600', 'hover:bg-green-700', 'border-green-600');
+            setTimeout(() => {
+                copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Kopyala';
+                copyBtn.classList.remove('bg-green-600', 'hover:bg-green-700', 'border-green-600');
+            }, 2500);
+        }
+
+        function sendMail() {
+            const subject = document.getElementById('emailSubject').value;
+            const body = document.getElementById('emailBody').value;
+            const recipient = "disciplinary@uefa.ch,info@uefa.com";
+            const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.location.href = mailtoLink;
+        }
+
+        window.onload = generateText;
+    </script>
+</body>
+</html>
+
