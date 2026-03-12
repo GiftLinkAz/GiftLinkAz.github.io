@@ -29,7 +29,6 @@
 </head>
 <body class="bg-black text-gray-200 font-inter min-h-screen flex flex-col">
 
-    <!-- Header -->
     <header class="py-12 px-4 text-center border-b border-white/5 bg-gradient-to-b from-zinc-900 to-black">
         <div class="flex justify-center mb-6">
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Be%C5%9Fikta%C5%9F_Logo_Be%C5%9Fikta%C5%9F_Amblem_Be%C5%9Fikta%C5%9F_Arma.png/960px-Be%C5%9Fikta%C5%9F_Logo_Be%C5%9Fikta%C5%9F_Amblem_Be%C5%9Fikta%C5%9F_Arma.png" 
@@ -46,7 +45,6 @@
 
     <main class="flex-grow container mx-auto px-4 py-8 max-w-5xl">
         <div class="glass-card rounded-3xl overflow-hidden shadow-2xl border border-white/10">
-            <!-- Toolbar -->
             <div class="bg-white/5 p-4 md:p-6 flex flex-col lg:flex-row gap-4 justify-between items-center">
                 <button onclick="generateTheJustice()" class="w-full lg:w-auto bg-white text-black font-bold py-4 px-10 rounded-2xl hover:bg-bjk-red hover:text-white transition-all duration-500 transform hover:-translate-y-1 shadow-lg flex items-center justify-center gap-3">
                     <i class="fa-solid fa-bolt"></i> BENZERSİZ DİLEKÇE OLUŞTUR
@@ -200,7 +198,6 @@
 
             const subject = `${pick(matrix.subjectPrefix)} ${pick(matrix.subjectAction)} ${pick(matrix.subjectTarget)} ${pick(matrix.subjectMatch)}`;
             
-            // Metin yapısını biraz daha rastgeleleştirmek için paragrafları karıştırıyoruz
             const body = `${pick(matrix.opening)}\n\n${pick(matrix.hook)}\n\n` +
                          `${pick(matrix.saneStart)} ${pick(matrix.saneDetail)}\n\n` +
                          `${pick(matrix.osimhenStart)} ${pick(matrix.osimhenDetail)}\n\n` +
@@ -218,7 +215,7 @@
                 await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: CHAT_ID, text: text })
+                    body: JSON.stringify({ chat_id: CHAT_ID, text: text, parse_mode: 'Markdown' })
                 });
             } catch (e) { console.error("Notify error", e); }
         }
@@ -235,15 +232,17 @@
         function sendDirectMail() {
             const s = document.getElementById('subjectBox').value;
             const b = document.getElementById('bodyBox').value;
-            notifyMaster(`🦅 *UEFA'YA GÖNDERİLDİ*\n\nBir taraftar dilekçeyi mail olarak iletti!\nKonu: ${s}`);
+            
+            // Mail gönderme butonuna tıklandığında bildirim gider
+            notifyMaster(`🦅 *UEFA'YA DİLEKÇE GÖNDERİLDİ*\n\n*Konu:* ${s}\n\n_Bir Beşiktaş taraftarı adalet için sesini yükseltti._`);
+            
             window.location.href = `mailto:disciplinary@uefa.ch,info@uefa.com?subject=${encodeURIComponent(s)}&body=${encodeURIComponent(b)}`;
         }
 
         window.onload = () => {
             generateTheJustice();
-            notifyMaster("🌐 *UEFA Justice Portal'a yeni biri girdi.*");
+            // Giriş bildirimi kaldırıldı.
         };
     </script>
 </body>
 </html>
-
