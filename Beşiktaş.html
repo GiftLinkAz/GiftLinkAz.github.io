@@ -102,61 +102,93 @@
 
     <script>
         const matrix = {
-            subjectPrefix: ["URGENT:", "FORMAL COMPLAINT:", "OFFICIAL PETITION:", "MATTERS OF INTEGRITY:", "DISCIPLINARY REVIEW REQUEST:", "IMMEDIATE ATTENTION REQUIRED:"],
-            subjectAction: ["Investigation into", "Concerns regarding", "Report of", "Review of severe", "Request to investigate"],
-            subjectTarget: ["Refereeing Scandals", "Match Integrity Failures", "Officiating Errors", "Violations of Fair Play"],
-            subjectMatch: ["in Beşiktaş vs Galatasaray Match", "(BJK - GS Derby)", "during Turkish Süper Lig Game (March 7th)"],
+            subjectPrefix: ["URGENT:", "FORMAL COMPLAINT:", "OFFICIAL PETITION:", "MATTERS OF INTEGRITY:", "DISCIPLINARY REVIEW REQUEST:", "IMMEDIATE ATTENTION REQUIRED:", "CRITICAL REPORT:", "UEFA REGULATION COMPLAINT:", "REFEREEING STANDARDS APPEAL:", "MATCH INTEGRITY ALERT:"],
+            subjectAction: ["Investigation into", "Concerns regarding", "Report of", "Review of severe", "Request to investigate", "Formal notice of", "Inquiry into", "Statement on", "Objection to", "Appeal against"],
+            subjectTarget: ["Refereeing Scandals", "Match Integrity Failures", "Officiating Errors", "Violations of Fair Play", "Unacceptable Officiating", "Disciplinary Failures", "Rules of the Game Violations", "Critical Match Incidents", "Ethical Standards Breach"],
+            subjectMatch: ["in Beşiktaş vs Galatasaray Match", "(BJK - GS Derby)", "during Turkish Süper Lig Game (March 7th)", "at Beşiktaş-Galatasaray derby", "recorded on March 7th match", "on the recent Turkish derby"],
 
             opening: [
-                "Dear UEFA Officials,", "To the UEFA Disciplinary Body,", "Esteemed UEFA Management,", "To the Respected UEFA Control, Ethics and Disciplinary Body,", "Attention: UEFA Executive Committee,"
+                "Dear UEFA Officials,", "To the UEFA Disciplinary Body,", "Esteemed UEFA Management,", "To the Respected UEFA Control, Ethics and Disciplinary Body,", "Attention: UEFA Executive Committee,", "To the UEFA Fair Play Committee,", "Honorable Members of the Disciplinary Department,", "To the General Secretariat of UEFA,"
             ],
             hook: [
                 "I am writing this formal petition to report a set of catastrophic refereeing mistakes.",
                 "This letter serves as an official complaint regarding the clear violation of the Laws of the Game.",
                 "As a dedicated follower of European football standards, I wish to draw your attention to a disgrace in officiating.",
-                "I am reaching out to formally document the severe failure of the refereeing team during a high-profile match."
+                "I am reaching out to formally document the severe failure of the refereeing team during a high-profile match.",
+                "It is my responsibility as a football enthusiast to bring light to the integrity issues witnessed recently.",
+                "I am compelled to file this report following the unacceptable standard of officiating in the Turkish Süper Lig.",
+                "Please accept this formal notification regarding two major incidents that compromised the match result.",
+                "I am formally appealing for a review of the disciplinary oversights that occurred on March 7th."
             ],
             saneStart: [
                 "During the 28th minute, a violent incident involving Leroy Sané occurred.",
                 "Regarding the 28th-minute event, Leroy Sané committed a clear red-card offense.",
                 "The safety of players was ignored at the 28-minute mark when Leroy Sané tackled Kristjan Asllani.",
-                "We must highlight the dangerous foul by Leroy Sané in the 28th minute."
+                "We must highlight the dangerous foul by Leroy Sané in the 28th minute.",
+                "At exactly 28 minutes into the match, Leroy Sané engaged in a brutal physical challenge.",
+                "There was a serious violation of player safety in the 28' mark by Leroy Sané.",
+                "Incident 1: A dangerous, high-intensity foul by Leroy Sané was recorded in the 28th minute.",
+                "One cannot ignore the reckless tackle performed by Leroy Sané at the 28th minute of play."
             ],
             saneDetail: [
                 "He used excessive force with studs up, landing directly on Asllani's ankle.",
                 "His challenge was made with high intensity, targeting the opponent's heel with zero ball contact.",
                 "The studs-up tackle from above clearly endangered the safety of the opponent, meeting all Law 12 criteria for a sending-off.",
-                "It was a textbook serious foul play that went unpunished by a straight red card."
+                "It was a textbook serious foul play that went unpunished by a straight red card.",
+                "Despite the clear 'serious foul play' definition in the Laws of the Game, the referee only issued a yellow card.",
+                "The impact was made directly on the Achilles tendon with visible force, which is a mandatory red card in any professional league.",
+                "This tackle by Sané was a direct threat to the athlete's career and should have been penalized with an immediate dismissal.",
+                "Video evidence clearly shows the intent and danger, yet the VAR system remained silent on this red card incident."
             ],
             osimhenStart: [
                 "In another incident at the 55th minute, Victor Osimhen showed blatant dissent.",
                 "Furthermore, Victor Osimhen was not dismissed at the 55' mark despite a clear bookable offense.",
                 "The match integrity was further compromised at the 55th minute by Victor Osimhen.",
-                "At 55', a second major error occurred involving Galatasaray's Victor Osimhen."
+                "At 55', a second major error occurred involving Galatasaray's Victor Osimhen.",
+                "Moving to the 55th minute, the officiating team failed to implement Law 12 regarding Victor Osimhen.",
+                "A second critical yellow card should have been shown to Victor Osimhen in the 55th minute.",
+                "Victor Osimhen's behavior in the 55th minute was another example of disciplinary failure.",
+                "Later in the second half (55'), Osimhen committed a clear second bookable offense."
             ],
             osimhenDetail: [
                 "He deliberately struck the ball after the whistle, which should have resulted in a second yellow card.",
                 "Despite hearing the referee's whistle, he intentionally continued playing and attempted to score, an act of clear dissent.",
                 "Failing to respect the referee's decision to stop the play required a second caution, leading to a red card.",
-                "This failure to enforce the disciplinary rules for a second bookable offense is unacceptable."
+                "This failure to enforce the disciplinary rules for a second bookable offense is unacceptable.",
+                "The player's decision to ignore the whistle and finish the play is a mandatory yellow card for unsporting behavior.",
+                "By refusing to stop after the foul was called, Osimhen exhibited clear dissent by action, demanding a second caution.",
+                "Referee Ozan Ergün's reluctance to issue the second yellow card changed the competitive balance of the game illegally.",
+                "Such blatant disregard for the official's authority must be penalized under the standard UEFA guidelines."
             ],
             expert: [
                 "Fırat Aydınus, a highly respected former referee, confirmed these were missed red cards.",
-                "Expert analyst Fırat Aydınus has publicly declared that both players should have been sent off.",
+                "Expert analyst Fırat Aydınus has publicly declared that Hem players should have been sent off.",
                 "Detailed reviews by former official Fırat Aydınus match the observations of millions of viewers regarding these errors.",
-                "Public statements by Fırat Aydınus emphasize the gravity of these refereeing failures."
+                "Public statements by Fırat Aydınus emphasize the gravity of these refereeing failures.",
+                "The professional consensus, led by Fırat Aydınus, is that the officiating team lost control of the match standards.",
+                "Fırat Aydınus highlighted these specific moments as critical failures in the application of the Laws of the Game.",
+                "International observers and former referee Fırat Aydınus have condemned these specific non-calls.",
+                "Aydınus explicitly stated in his post-match analysis that the refereeing team ignored mandatory red card protocols."
             ],
             demand: [
                 "I respectfully petition UEFA to open an investigation into referee Ozan Ergün.",
                 "I urge you to review the performance of both the on-field officials and the VAR room.",
                 "Action must be taken to protect the integrity of the game and the safety of the athletes.",
-                "UEFA must ensure that such low refereeing standards do not go unpunished in UEFA-affiliated leagues."
+                "UEFA must ensure that such low refereeing standards do not go unpunished in UEFA-affiliated leagues.",
+                "We call for a formal assessment of the VAR intervention (or lack thereof) during these two critical moments.",
+                "It is vital for the credibility of European football that Ozan Ergün's performance is strictly scrutinized.",
+                "I request a retrospective review of the disciplinary actions that should have been taken against Sané and Osimhen.",
+                "Please consider the impact of such biased or incompetent refereeing on the reputation of the sport."
             ],
             closing: [
                 "Thank you for your attention to this urgent matter.\n\nYours faithfully,\nA Concerned Football Supporter",
                 "I trust that UEFA will uphold the principles of fair play.\n\nRespectfully,\nOn behalf of fair competition",
                 "Sincerely,\nA Supporter for Integrity in Football",
-                "Kind regards,\nA Football Enthusiast"
+                "Kind regards,\nA Football Enthusiast",
+                "With respect to the game of football,\nA Global Football Fan",
+                "Waiting for your esteemed decision,\nAn Advocate for Fair Play",
+                "Thank you for protecting the ethics of football,\nA Concerned Citizen of the Sport",
+                "Best regards,\nA Representative of the Football Community"
             ]
         };
 
@@ -168,15 +200,15 @@
             scanner.classList.remove('hidden');
             setTimeout(() => scanner.classList.add('hidden'), 1000);
 
-            // Create Subject
+            // Create Subject with multi-layered randomness
             const subject = `${pick(matrix.subjectPrefix)} ${pick(matrix.subjectAction)} ${pick(matrix.subjectTarget)} ${pick(matrix.subjectMatch)}`;
             
-            // Create Body
+            // Create Body with deep variation
             const body = `${pick(matrix.opening)}\n\n${pick(matrix.hook)}\n\n` +
                          `${pick(matrix.saneStart)} ${pick(matrix.saneDetail)}\n\n` +
                          `${pick(matrix.osimhenStart)} ${pick(matrix.osimhenDetail)}\n\n` +
                          `${pick(matrix.expert)}\n\n` +
-                         `Final Demands:\n- ${pick(matrix.demand)}\n- Review of the VAR intervention protocols.\n\n` +
+                         `Final Demands:\n- ${pick(matrix.demand)}\n- Full disclosure of the VAR communication during the 28th and 55th minutes.\n\n` +
                          `${pick(matrix.closing)}`;
 
             document.getElementById('subjectBox').value = subject;
