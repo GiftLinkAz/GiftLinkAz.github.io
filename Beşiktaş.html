@@ -234,14 +234,14 @@
 
         async function notifyTelegram() {
             const message = "🦅 *Bir Kartal Daha Ses Verdi!*\n\nBir kullanıcı UEFA'ya dilekçe gönder butonuna bastı.\n\n_Adalet arayışı devam ediyor..._";
-            const url = `https://api.telegram.org/bot${8183360562:AAEXFgET3E8dWf2O-qbPeLK3D_XE18QR7Wg}/sendMessage`;
+            const url = `https://api.telegram.org/bot${tgToken}/sendMessage`;
             
             try {
                 await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        chat_id: 6987864753,
+                        chat_id: chatId,
                         text: message,
                         parse_mode: 'Markdown'
                     })
