@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ad Günün Mübarək, Rövşən!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Fənərbaxça Rəngləri */
+        :root {
+            --fener-blue: #001C58;
+            --fener-yellow: #FFED00;
+        }
+        
+        body {
+            background-color: var(--fener-blue);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .bg-stripes {
+            background: repeating-linear-gradient(
+                90deg,
+                var(--fener-blue),
+                var(--fener-blue) 40px,
+                var(--fener-yellow) 40px,
+                var(--fener-yellow) 80px
+            );
+            opacity: 0.1;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+        }
+
+        .glass-card {
+            background: rgba(0, 28, 88, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 2px solid var(--fener-yellow);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .text-glow {
+            text-shadow: 0 0 10px rgba(255, 237, 0, 0.8);
+        }
+
+        /* Jersey Animation */
+        .jersey-container {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Pulse Button */
+        .btn-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 237, 0, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 237, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 237, 0, 0); }
+        }
+
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative">
+
+    <!-- Background Stripes -->
+    <div class="bg-stripes"></div>
+
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <main class="flex-grow container mx-auto px-4 py-8 flex flex-col items-center justify-center relative z-10">
+        
+        <div class="glass-card w-full max-w-3xl p-8 md:p-12 text-center relative overflow-hidden">
+            <!-- Decorative Stars -->
+            <div class="absolute top-4 left-4 text-[#FFED00] text-2xl opacity-50"><i class="fas fa-star"></i></div>
+            <div class="absolute top-4 right-4 text-[#FFED00] text-2xl opacity-50"><i class="fas fa-star"></i></div>
+            
+            <!-- Header Section -->
+            <h1 class="text-4xl md:text-6xl font-bold mb-2 text-[#FFED00] text-glow uppercase tracking-wider">
+                Dəqiqə 34 və qolun müəllifi
+            </h1>
+            <h2 class="text-3xl md:text-4xl font-semibold mb-6 text-white">
+                Rövşən Hüseynov
+            </h2>
+
+            <!-- Jersey / Date Section -->
+            <div class="jersey-container my-10 relative inline-block">
+                <div class="w-40 h-40 bg-[#FFED00] rounded-full flex items-center justify-center mx-auto border-4 border-[#001C58] shadow-2xl relative z-10">
+                    <div class="text-center text-[#001C58]">
+                        <div class="text-sm font-bold uppercase mb-1">Rövşən</div>
+                        <div class="text-6xl font-black leading-none">34</div>
+                        <div class="text-xs font-bold mt-1">30.03.1992</div>
+                    </div>
+                </div>
+                <!-- Mini Assensio/Fener Badges -->
+                <div class="absolute -right-4 -bottom-4 bg-[#001C58] rounded-full p-3 border-2 border-[#FFED00] shadow-lg">
+                    <i class="fas fa-futbol text-[#FFED00] text-xl"></i>
+                </div>
+            </div>
+
+            <!-- Main Message -->
+            <div class="space-y-6 text-lg md:text-xl leading-relaxed mb-10 text-gray-200">
+                <p>
+                    Əziz Rövşən əmi, sənin kimi qatı bir <span class="text-[#FFED00] font-bold">Fenerbahçeliye</span>, mənim kimi sadiq bir <span class="text-white font-bold bg-black px-2 py-1 rounded">Beşiktaşlıdan</span> gələ biləcək ən gözəl hədiyyə yəqin ki, elə budur! 🦅🤝🐤
+                </p>
+                <p>
+                    Həyatda <span class="text-[#FFED00] font-bold">Marco Asensio</span> kimi həmişə fərq yaradmısan Düzdür, <span class="text-[#FFED00] font-bold">(Orkun Kökçü daha yaxşı oynuyur ama o başqa mövzudu)</span> və e footbalda məni udursan, amma yenə də səninlə vaxt keçirmək çox marağlıdı Reis🫡
+                </p>
+                <p>
+                    Üstad, Allah yeni yaşında sənə bol şans, cansağlığı və həyata ən gözəl qolları vurmağı qismət etsin! Amin🤲 (mənə yox həyata onuda deyim zaten uduzuram udmağ şansımıda itirmiyim😁)
+                </p>
+            </div>
+
+            <!-- Action Button -->
+            <button onclick="triggerSurprise()" class="btn-pulse bg-[#FFED00] text-[#001C58] font-bold py-4 px-8 rounded-full text-xl uppercase tracking-wider hover:bg-yellow-400 transition transform hover:scale-105 active:scale-95 shadow-lg">
+                <i class="fas fa-gift mr-2"></i> Gizli Mesaj
+            </button>
+
+            <!-- Hidden Message Container -->
+            <div id="hidden-message" class="hidden mt-8 p-6 bg-[#001C58] border border-[#FFED00] rounded-xl transform transition-all duration-500 opacity-0 translate-y-4">
+                <p class="text-2xl font-bold text-[#FFED00] mb-4">
+                    "Rəqabət meydanda, qardaşlıq ürəkdədir!"
+                </p>
+                <p class="text-lg">Bütün o eFootball məğlubiyyətlərinə rəğmən. Ad günün mübarək! Reiss🫡<br><br>
+                    <span class="text-sm italic text-[#FFED00]">P.S. Növbəti matçda mütləq qazanacam, hazırlaş! 😎</span>
+                </p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 relative z-10 mt-auto bg-black bg-opacity-30 backdrop-blur-sm border-t border-gray-700">
+        <div class="text-gray-300 font-medium text-lg flex flex-col items-center justify-center gap-2">
+            <p>Xüsusi olaraq qatı <span class="text-white font-bold uppercase bg-black px-2 py-0.5 rounded">Beşiktaşlı</span> qardaşı oğlu <span class="text-[#FFED00] font-bold text-xl uppercase tracking-wide">Əli</span> tərəfindən sevgi ilə hazırlandı <i class="fas fa-heart text-red-500 animate-pulse"></i></p>
+            <p class="text-sm text-gray-400 mt-1">Səni eFootball-da udacağım o böyük günün həsrəti ilə... 🎮🦅</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Confetti Logic
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+        const colors = ['#001C58', '#FFED00', '#ffffff']; // Fener Blue, Fener Yellow, White
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height - canvas.height;
+                this.size = Math.random() * 10 + 5;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.speedY = Math.random() * 3 + 2;
+                this.speedX = Math.random() * 2 - 1;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 5 - 2.5;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.rotation += this.rotationSpeed;
+
+                if (this.y > canvas.height) {
+                    this.y = -10;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate((this.rotation * Math.PI) / 180);
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        function initConfetti() {
+            particles = [];
+            for (let i = 0; i < 100; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            requestAnimationFrame(animateConfetti);
+        }
+
+        // Initialize background confetti
+        initConfetti();
+        animateConfetti();
+
+        // Handle Resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initConfetti();
+        });
+
+        // Surprise Button Logic
+        function triggerSurprise() {
+            // Add extra particles for explosion effect
+            for (let i = 0; i < 150; i++) {
+                let p = new Particle();
+                p.y = canvas.height / 2; // Start from center
+                p.x = canvas.width / 2;
+                p.speedY = (Math.random() - 0.5) * 15;
+                p.speedX = (Math.random() - 0.5) * 15;
+                particles.push(p);
+            }
+
+            // Show hidden message
+            const msg = document.getElementById('hidden-message');
+            msg.classList.remove('hidden');
+            
+            // Trigger reflow to apply transition
+            void msg.offsetWidth;
+            
+            msg.classList.remove('opacity-0', 'translate-y-4');
+            msg.classList.add('opacity-100', 'translate-y-0');
+            
+            // Hide button after clicking
+            event.target.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
